@@ -1,0 +1,43 @@
+---
+title: "Задание 1_1"
+author: "Лыжина Мария"
+date: "2022-10-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Создаем новую колонку без пробела, преобразуем в числовой формат. Если это была колонка с числами, получаем преобразованную без пробела, иначе это была колонка строк
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+    fix_column <- function(column){
+      fixed_col <- gsub(" ", "", column)
+      fixed_col <- as.numeric(fixed_col)
+      
+      if (any(is.na(fixed_col))){
+        return(column)
+      }
+      return(fixed_col)
+    }
+```
+
+Проводим преобразования для каждого столбца
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+    fix_data <- function(dataframe){
+      fix_dataframe <- lapply(dataframe, fix_column)
+      fix_dataframe <- data.frame(fix_dataframe)
+      return(fix_dataframe)
+    }
+```
+Считываем данные, выполняем задачу, выводим результат
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+    getwd()
+    data <- read.csv('lab1_e1.csv')
+    data<-fix_data(data)
+    print(data)
+```
+
+
+
+

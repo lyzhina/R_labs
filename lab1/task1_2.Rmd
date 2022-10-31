@@ -1,0 +1,37 @@
+---
+title: "Задание 1_2"
+author: "Лыжина Мария"
+date: "2022-10-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Объединяем датафреймы по id и получаем датафрейм с пациентами, не пропускавшими измерения температуры
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+    merge_data <- function(data){
+      merged_data <- Reduce(function(x, y) merge(x, y, by='id'), data)
+      return(merged_data)
+    }
+```
+Вызываем объединение, считаем средние значения в датафрейме без id
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+get_id <- function(data){
+  merged_data <- merge_data(data)
+  merged_data <- na.omit(merged_data)
+  data_without_id <- merged_data[, -c(1)]
+  means <- rowMeans(data_without_id)
+  mean_temp <- data.frame(id=merged_data$id, mean_temp=means)
+  return(mean_temp)
+}
+```
+Загружаем данные, выполняем задачу, выводим результат
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+    getwd()
+    load('lab1_e2.RData')
+    new_data<-get_id(all_data)
+    print(new_data)
+```
+
+
